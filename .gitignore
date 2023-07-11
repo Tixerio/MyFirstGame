@@ -1,4 +1,4 @@
-Library/
-Temp/
+/[Ll]ibrary/
+/Temp/*
+/Logs/*
 Assembly-CSharp.csproj
-Logs/
