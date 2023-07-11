@@ -8,10 +8,10 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
-    public float speedMultiplier = 2.0f;
-    public float playerSpeed = 2.0f;
+    public float speedMultiplier = 4.0f;
+    public float playerSpeed = 4.0f;
     private float jumpHeight = 1.0f;
-    public float rotationSpeed = 100f;
+    public float rotationSpeed = 180;
     public float gravityValue = -9.81f;
     private int jumpCounter = 0;
 
@@ -41,8 +41,9 @@ public class PlayerMovement : MonoBehaviour
         // Rotate character
         transform.Rotate(0f, horizontalInput * rotationSpeed * Time.deltaTime, 0f);
 
-        if(Input.GetButtonDown("Left Shift"))
+        if(Input.GetKey(KeyCode.LeftShift) && jumpCounter == 0)
         {
+            Debug.Log("test");
             playerSpeed += speedMultiplier;
         }
 
@@ -51,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(move * Time.deltaTime * playerSpeed);
 
         // Jump logic
-        if (Input.GetButtonDown("Jump") && jumpCounter < 3)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCounter < 3)
         {
             playerVelocity.y = 0f;
             playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
@@ -61,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
         // Apply gravity
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
-        playerSpeed = speedMultiplier;
+
+        if (jumpCounter == 0)
+        {
+            playerSpeed = speedMultiplier;
+        }
     }
 }
