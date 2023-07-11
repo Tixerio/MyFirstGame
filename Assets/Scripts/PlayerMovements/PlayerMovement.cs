@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float speedMultiplier = 4.0f;
     public float playerSpeed = 4.0f;
     private float jumpHeight = 1.0f;
-    public float rotationSpeed = 180;
+    public float rotationSpeed = 190;
     public float gravityValue = -9.81f;
     private int jumpCounter = 0;
 
