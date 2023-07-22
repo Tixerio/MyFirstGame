@@ -5,15 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    //player base variables
     private CharacterController controller;
-    private Vector3 playerVelocity;
-    private bool groundedPlayer;
+    private Vector3 characterVelocity;
+    private bool groundedCharacter;
 
     //character Speed values
     public float baseSpeed = 5.0f;
     public float speedMultiplier = 3.0f;
-    private float playerSpeed;
+    private float characterSpeed;
 
     //rotation variables
     public float baseRotation = 190;
@@ -37,54 +36,68 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
+
     void Update()
     {
-       
+
         //initiated grounded
-        groundedPlayer = controller.isGrounded;
+        groundedCharacter = controller.isGrounded;
 
         //reset values for base state
         if (jumpCounter == 0)
-        {
-            playerSpeed = baseSpeed;
+        {  
+            characterSpeed = baseSpeed;
             rotationSpeed = baseRotation;
         }
-       
+
         //resets grounded values
-        if (groundedPlayer && playerVelocity.y < 0)
+        if (groundedCharacter && characterVelocity.y < 0)
         {
             jumpCounter = 0;
-            playerVelocity.y = 0f;
+            characterVelocity.y = 0f;
         }
 
-        // Get player input
+        // Get character input
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
         //makes character sprint
-        if(Input.GetKey(KeyCode.LeftShift) && jumpCounter == 0)
+        if (Input.GetKey(KeyCode.LeftShift) && jumpCounter == 0)
         {
-            playerSpeed += speedMultiplier;
+
+            characterSpeed += speedMultiplier;
             rotationSpeed = baseRotation / rotationMultiplier;
         }
 
+        // Jump logic
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCounter < maxJumps)
+        {
+            characterVelocity.y = 0f;
+            characterVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            jumpCounter += 1;
+        }
+
+        
         // Rotate character
         transform.Rotate(0f, horizontalInput * rotationSpeed * Time.deltaTime, 0f);
 
         // Move character forward
         Vector3 move = transform.forward * verticalInput;
-        controller.Move(move * Time.deltaTime * playerSpeed);
-
-        // Jump logic
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCounter < maxJumps)
-        {
-            playerVelocity.y = 0f;
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            jumpCounter += 1;
-        }
+        controller.Move(move * Time.deltaTime * characterSpeed);
 
         // Apply gravity and then move character in local space
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        characterVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(characterVelocity * Time.deltaTime);
     }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("point success");
+        if (other.CompareTag("Point"))
+        {
+            Destroy(other.gameObject); // Destroy the player character
+        }
+    }
+
 }
