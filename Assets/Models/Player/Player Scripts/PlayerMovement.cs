@@ -91,13 +91,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("point success");
-        if (other.CompareTag("Point"))
-        {
-            Destroy(other.gameObject); // Destroy the player character
-        }
-    }
+
 
 }

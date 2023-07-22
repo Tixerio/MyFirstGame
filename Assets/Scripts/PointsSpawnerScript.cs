@@ -8,7 +8,7 @@ public class PointsSpawnerScript : MonoBehaviour
 
     public GameObject point;
     public int activePoints = 0;
-    private List<GameObject> pointsList = new List<GameObject>();
+    public List<GameObject> pointsList = new List<GameObject>();
 
     private void spawnPoint(int max)
     {
@@ -16,35 +16,24 @@ public class PointsSpawnerScript : MonoBehaviour
         {
             Vector3 position = new Vector3(Random.Range(-10.0F, 10.0F), 1, Random.Range(-10.0F, 10.0F));
             //point = new GameObject();
-            pointsList.Add(Instantiate(point, position, Quaternion.identity)); 
-
+            pointsList.Add(Instantiate(point, position, Quaternion.identity));
+            Debug.Log(pointsList.Count);
             Debug.Log("spawned");
         }
     }
 
-
-
-
     private void Start()
     {
-        spawnPoint(1);
+      
     }
 
     private void Update()
     {
+        spawnPoint(1);
        
-      
-       // point.transform.Translate(Vector3.forward * Time.deltaTime * 2f);
-    }
 
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("point success");
-        if (other.CompareTag("Player"))
-        {
-            Destroy(other.gameObject); // Destroy the player character
-        }
     }
+
 
 }
