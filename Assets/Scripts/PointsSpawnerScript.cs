@@ -24,7 +24,7 @@ public class PointsSpawnerScript : MonoBehaviour
     {
         // Subscribe pattern metho, here we subscripe to the publisher in pointscript
         // and add the method which should be executed when we get a message
-        PointScript.OnPointDestroyed += RemovePointFromList;
+        PointScript.RemoveOnPointDestroyed += RemovePointFromList;
     }
 
     private void Update()
@@ -46,6 +46,6 @@ public class PointsSpawnerScript : MonoBehaviour
     // this method is used to remove the subscription in case of the object being destroyed
     private void OnDestroy()
     {
-        PointScript.OnPointDestroyed -= RemovePointFromList;
+        PointScript.RemoveOnPointDestroyed -= RemovePointFromList;
     }
 }

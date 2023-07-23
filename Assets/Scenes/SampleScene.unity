@@ -582,8 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   point: {fileID: 5854225319526831121, guid: b65a852acd40ab640b659bc888169f1c, type: 3}
-  activePoints: 0
-  myGameObjects: []
+  pointsList: []
 --- !u!4 &921310491
 Transform:
   m_ObjectHideFlags: 0
