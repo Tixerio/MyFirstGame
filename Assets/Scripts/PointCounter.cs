@@ -28,7 +28,7 @@ public class PointCounter : MonoBehaviour
     }
 
 
-    private void incrementPoints()
+    private void incrementPoints(GameObject pointObject)
     {
         points++;
     }
